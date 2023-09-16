@@ -15,7 +15,7 @@ function Create() {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/contacts", {
+      const response = await fetch("https://contactsdata10.onrender.com/api/contacts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
