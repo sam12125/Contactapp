@@ -34,7 +34,7 @@ db.once("open", () => {
 
 app.get("/api/contacts", async (req, res) => {
   try {
-    const items = await UserModel.find(); // Assuming "Item" is your Mongoose model
+    const items = await UserModel.find(); 
     console.log("hi", items);
     res.json(items);
   } catch (error) {
@@ -42,25 +42,6 @@ app.get("/api/contacts", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-// app.get("/api/contacts:id", async (req, res) => {
-//   console.log("pp");
-//   try {
-//     const userId = req.params.id; // Get the user ID from the request parameters
-//     console.log("hey", userId);
-//     const user = await UserModel.findById(userId); // Find the user by ID
-
-//     if (!user) {
-//       // If user with the specified ID is not found, return a 404 response
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     res.json(user); // Return the user as JSON
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
 
 app.post("/api/contacts", async (req, res) => {
   const userModel = new UserModel({
@@ -89,7 +70,7 @@ app.put("/api/contacts", async (req, res) => {
         number: req.body.number,
         email: req.body.email,
       },
-      { new: true } // This option returns the updated document
+      { new: true }
     );
 
     if (!updatedData) {
