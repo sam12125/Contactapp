@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Update() {
+function Update({ id = { id } }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const navigate = useNavigate();
 
   const updateData = async () => {
@@ -30,6 +30,7 @@ function Update() {
       if (response.ok) {
         window.alert("Contact Updated Successfully");
         navigate("/");
+        window.location.reload();
       } else {
         window.alert("Something went wrong");
       }
@@ -51,22 +52,22 @@ function Update() {
           margin: "auto",
         }}
       >
-        <h1>Update Contacts by Id</h1>
+        <h1>Update Contact</h1>
         <input
-          placeholder="Enter Name"
+          placeholder="Enter Updated name"
           onChange={(e) => setName(e.target.value)}
         />
         <input
-          placeholder="Enter Contact number"
+          placeholder="Enter Updated Contact number"
           type="number"
           onChange={(e) => setNumber(e.target.value)}
         />
         <input
-          placeholder="Enter email"
+          placeholder="Enter Updated email"
           type="email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input placeholder="Enter Id" onChange={(e) => setId(e.target.value)} />
+        {/* <input placeholder="Enter Id" value={id} /> */}
         <button style={{ cursor: "pointer" }} onClick={updateData}>
           Update
         </button>
