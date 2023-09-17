@@ -15,13 +15,16 @@ function Create() {
     };
 
     try {
-      const response = await fetch("https://contactsdata10.onrender.com/api/contacts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "https://contactsdata10.onrender.com/api/contacts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
 
       if (response.ok) {
         window.alert("Contact Added Successfully");
