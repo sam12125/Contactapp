@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import { CSVLink } from "react-csv";
+import { useNavigate } from "react-router-dom";
+import Update from "./Update";
 
 function Get() {
   const [users, setUsers] = useState([]);
   const [sortOrder, setSortOrder] = useState("");
   const [dataToRender, setDataToRender] = useState([]);
   const [name, setName] = useState("");
+  const navigate = useNavigate();
+  const [editContact, setEditContact] = useState(null);
 
   const fetchData = () => {
     axios.get("https://contactsdata10.onrender.com/api/contacts").then(
@@ -50,6 +54,35 @@ function Get() {
       user.name.toLowerCase().includes(name.toLowerCase())
     );
     setDataToRender(filteredData);
+  };
+
+  const deleteData = async (id) => {
+    try {
+      const response = await fetch(
+        `https://contactsdata10.onrender.com/api/contacts?id=${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        window.alert("Contact Deleted Successfully");
+        navigate("/");
+        fetchData();
+      } else {
+        window.alert("Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      window.alert("An error occurred while deleting the contact.");
+    }
+  };
+
+  const handleEdit = (contact) => {
+    setEditContact(contact);
   };
 
   return (
@@ -108,6 +141,7 @@ function Get() {
             <th style={{ textAlign: "center" }}>Contact number</th>
             <th style={{ textAlign: "center" }}>Email</th>
             <th style={{ textAlign: "center" }}>Id</th>
+            <th style={{ textAlign: "center" }}>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -121,10 +155,26 @@ function Get() {
               <td style={{ textAlign: "center", width: "25%" }}>{el.number}</td>
               <td style={{ textAlign: "center" }}>{el.email}</td>
               <td style={{ textAlign: "center" }}>{el._id}</td>
+              <td style={{ textAlign: "center" }}>
+                <button
+                  onClick={() => deleteData(el._id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => handleEdit(el)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Edit
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {editContact && <Update contact={editContact} id={editContact._id} />}
     </>
   );
 }
